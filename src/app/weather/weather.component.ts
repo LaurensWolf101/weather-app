@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ApixuService} from '../apixu.service';
-import {error} from '@angular/compiler/src/util';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -9,7 +9,7 @@ import {error} from '@angular/compiler/src/util';
   styleUrls: ['./weather.component.css']
 })
 export class WeatherComponent implements OnInit {
-  public weatherSearchForm: FormGroup;
+  public locations = new BehaviorSubject(0);
   public weatherData: any;
   public errormessage: any;
 
@@ -20,9 +20,7 @@ export class WeatherComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.weatherSearchForm = this.formBuilder.group({
-      location: ['']
-    });
+
   }
 
   sendToAPIXU(formValues) {
