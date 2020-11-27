@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ApixuService} from '../apixu.service';
+import {error} from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-weather',
@@ -10,6 +11,7 @@ import {ApixuService} from '../apixu.service';
 export class WeatherComponent implements OnInit {
   public weatherSearchForm: FormGroup;
   public weatherData: any;
+  public errormessage: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,9 +26,13 @@ export class WeatherComponent implements OnInit {
   }
 
   sendToAPIXU(formValues) {
+    this.errormessage = '';
     this.apixuService
       .getWeather(formValues.location)
       .subscribe(data => this.weatherData = data);
+    if (!this.weatherData.success) {
+      this.errormessage = 'this place does not exist';
+    }
     console.log(this.weatherData);
 
   }
